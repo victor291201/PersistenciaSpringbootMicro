@@ -1,7 +1,9 @@
-package com.micro.micro.repository;
+package com.micro.micro.repositories;
 
 import com.micro.micro.AbstractIntegrationDBTest;
 import com.micro.micro.entities.Usuario;
+import com.micro.micro.repositories.UsuarioRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,13 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UsuarioRepositoryTest extends AbstractIntegrationDBTest {
     UsuarioRepository usuarioRepository;
 
-
     @Autowired
     public UsuarioRepositoryTest(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-    void initMockUsuarios(){
+    void initMockUsuarios() {
         Usuario usuario = Usuario.builder()
                 .nombre("Julian")
                 .apellido("Pizarro")
@@ -51,25 +52,27 @@ class UsuarioRepositoryTest extends AbstractIntegrationDBTest {
         usuarioRepository.deleteAll();
 
     }
+
     @Test
-    void givenAnUser_whenSave_thenUserwithId(){
-        //given
+    void givenAnUser_whenSave_thenUserwithId() {
+        // given
         Usuario usuario = Usuario.builder()
                 .nombre("Julian")
                 .apellido("Pizarro")
                 .username("julianpizarro")
                 .password("123")
                 .build();
-        //when
+        // when
         Usuario userSaved = usuarioRepository.save(usuario);
-        //then
+        // then
         assertThat(userSaved.getId()).isNotNull();
 
     }
+
     @Test
     @DisplayName("dado un conjunto de usuarios al buscarlo todos obtenemos la lista de los usuarios en la base de datos")
-    void shouldGetAllUsers(){
-        //GIVEN
+    void shouldGetAllUsers() {
+        // GIVEN
         Usuario usuario = Usuario.builder()
                 .nombre("Julian")
                 .apellido("Pizarro")
@@ -85,14 +88,15 @@ class UsuarioRepositoryTest extends AbstractIntegrationDBTest {
                 .build();
         usuarioRepository.save(usuario2);
         usuarioRepository.flush();
-        //WHEN
+        // WHEN
         List<Usuario> usuarios = usuarioRepository.findAll();
 
-        //THEN
+        // THEN
         assertThat(usuarios).hasSize(2);
     }
+
     @Test
-    void givenUsuarios_whenBuscarPorNombreyApellido_thenObtienesUnaListaDeUsuarios(){
+    void givenUsuarios_whenBuscarPorNombreyApellido_thenObtienesUnaListaDeUsuarios() {
         Usuario usuario = Usuario.builder()
                 .nombre("Julian")
                 .apellido("Pizarro")
@@ -110,7 +114,7 @@ class UsuarioRepositoryTest extends AbstractIntegrationDBTest {
         List<Usuario> usuarios = usuarioRepository.findByNombreAndApellido("Julian", "Pizarro");
 
         assertThat(usuarios).isNotEmpty();
-        assertThat(usuarios).first().hasFieldOrPropertyWithValue("nombre","Julian");
+        assertThat(usuarios).first().hasFieldOrPropertyWithValue("nombre", "Julian");
     }
 
 }

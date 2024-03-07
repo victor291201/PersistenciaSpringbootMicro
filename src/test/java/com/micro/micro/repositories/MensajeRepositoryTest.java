@@ -1,8 +1,11 @@
-package com.micro.micro.repository;
+package com.micro.micro.repositories;
 
 import com.micro.micro.AbstractIntegrationDBTest;
 import com.micro.micro.entities.Mensaje;
 import com.micro.micro.entities.Usuario;
+import com.micro.micro.repositories.MensajeRepository;
+import com.micro.micro.repositories.UsuarioRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +20,9 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
     MensajeRepository mensajeRepository;
     UsuarioRepository usuarioRepository;
 
-
     @Autowired
     public MensajeRepositoryTest(MensajeRepository mensajeRepository,
-                                 UsuarioRepository usuarioRepository) {
+            UsuarioRepository usuarioRepository) {
 
         this.mensajeRepository = mensajeRepository;
         this.usuarioRepository = usuarioRepository;
@@ -46,23 +48,23 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
         usuarioRepository.flush();
 
         Mensaje mensaje1 = Mensaje.builder()
-                .creador( "José")
-                .destinator( "Victor")
+                .creador("José")
+                .destinator("Victor")
                 .created_at(LocalDateTime.now())
-                .contenido( "contenido génerico")
-                .usuario( userSaved )
+                .contenido("contenido génerico")
+                .usuario(userSaved)
                 .build();
 
         Mensaje mensaje2 = Mensaje.builder()
-                .creador( "José")
-                .destinator( "Victor")
+                .creador("José")
+                .destinator("Victor")
                 .created_at(LocalDateTime.now())
-                .contenido( "contenido génerico mensaje2")
-                .usuario( userSaved )
+                .contenido("contenido génerico mensaje2")
+                .usuario(userSaved)
                 .build();
 
-        Mensaje mensajeSaved1 = mensajeRepository.save( mensaje1 );
-        Mensaje mensajeSaved2 = mensajeRepository.save( mensaje2 );
+        Mensaje mensajeSaved1 = mensajeRepository.save(mensaje1);
+        Mensaje mensajeSaved2 = mensajeRepository.save(mensaje2);
         mensajeRepository.flush();
 
     }
@@ -78,23 +80,23 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
                 .username("fontalvo0218")
                 .password("123")
                 .build();
-        //when
+        // when
         Usuario userSaved = usuarioRepository.save(usuario);
-        //then
+        // then
         assertThat(userSaved.getId()).isNotNull();
 
         Mensaje mensaje = Mensaje.builder()
-                .creador( "José")
-                .destinator( "victor")
+                .creador("José")
+                .destinator("victor")
                 .created_at(LocalDateTime.now())
-                .contenido( "contenido génerico")
-                .usuario( userSaved )
+                .contenido("contenido génerico")
+                .usuario(userSaved)
                 .build();
 
-        Mensaje mensajeSaved = mensajeRepository.save( mensaje );
+        Mensaje mensajeSaved = mensajeRepository.save(mensaje);
         mensajeRepository.flush();
 
-        assertThat( mensajeSaved.getId()).isNotNull();
+        assertThat(mensajeSaved.getId()).isNotNull();
     }
 
     @Test
@@ -104,18 +106,18 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
 
         List<Mensaje> mensajes = this.mensajeRepository.findAll();
 
-        assertThat( mensajes ).hasSize(2 );
+        assertThat(mensajes).hasSize(2);
 
     }
 
     @Test
     void buscarMensajePorCreadorYDestinador() {
         this.initMensajes();
-        List<Mensaje> mensajes =  this.mensajeRepository.findByCreadorAndDestinator( "José", "Victor");
+        List<Mensaje> mensajes = this.mensajeRepository.findByCreadorAndDestinator("José", "Victor");
 
-        assertThat( mensajes ).isNotEmpty();
+        assertThat(mensajes).isNotEmpty();
 
-        assertThat( mensajes ).first().hasFieldOrPropertyWithValue( "destinator", "Victor" );
+        assertThat(mensajes).first().hasFieldOrPropertyWithValue("destinator", "Victor");
 
     }
 
@@ -124,11 +126,11 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
 
         this.initMensajes();
         Mensaje mensaje = this.mensajeRepository.findAll().get(0);
-        assertThat( mensaje ).isNotNull();
+        assertThat(mensaje).isNotNull();
         mensaje.setCreador("nuevo creador");
-        Mensaje mensajeSaved  = this.mensajeRepository.save(mensaje);
+        Mensaje mensajeSaved = this.mensajeRepository.save(mensaje);
         assertThat(mensajeSaved).isNotNull();
-        assertThat( mensajeSaved ).hasFieldOrPropertyWithValue( "creador", "nuevo creador" );
+        assertThat(mensajeSaved).hasFieldOrPropertyWithValue("creador", "nuevo creador");
 
     }
 
@@ -137,14 +139,14 @@ class MensajeRepositoryTest extends AbstractIntegrationDBTest {
         this.initMensajes();
         this.initMensajes();
         Mensaje mensaje = this.mensajeRepository.findAll().get(0);
-        assertThat( mensaje ).isNotNull();
+        assertThat(mensaje).isNotNull();
         Long mensajeId = mensaje.getId();
-        this.mensajeRepository.deleteById( mensajeId );
+        this.mensajeRepository.deleteById(mensajeId);
 
-        //ahora intentamos buscar el mensaje que ha sido eliminado
+        // ahora intentamos buscar el mensaje que ha sido eliminado
 
-        Optional<Mensaje> mensajePorId = this.mensajeRepository.findById( mensajeId );
-        assertThat( mensajePorId.isPresent() ).isFalse();
+        Optional<Mensaje> mensajePorId = this.mensajeRepository.findById(mensajeId);
+        assertThat(mensajePorId.isPresent()).isFalse();
 
     }
 

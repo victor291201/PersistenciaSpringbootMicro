@@ -1,4 +1,4 @@
-package com.micro.micro.repository;
+package com.micro.micro.repositories;
 
 import com.micro.micro.entities.Mensaje;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
 
-    List<Mensaje> findByCreadorAndDestinator(String creator, String destinator );
+    List<Mensaje> findByCreadorAndDestinator(String creator, String destinator);
 
 }
