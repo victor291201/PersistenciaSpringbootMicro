@@ -13,11 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Entity
@@ -26,6 +22,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "sugerencias")
+@Builder
 public class Sugerencia {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
