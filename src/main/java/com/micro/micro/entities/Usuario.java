@@ -1,10 +1,9 @@
 package com.micro.micro.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+import lombok.*;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,11 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Entity
@@ -30,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "usuarios")
+@Builder
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +36,7 @@ public class Usuario {
 
     private String nombre;
 
-    private String apellidos;
+    private String apellido;
 
     private Integer edad;
 
