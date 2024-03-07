@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,6 +44,11 @@ class SugerenciaRepositoryTest  extends AbstractIntegrationDBTest {
         return  crearSugerencia( crearUsuario() );
     }
 
+    Sugerencia guardarSugerenciaEnBD(){
+        Sugerencia sugerencia  = crearSugerenciaConUsuarioPorDefecto();
+        return this.sugerenciaRepository.save( sugerencia );
+    }
+
     @BeforeEach
     void setUp() {
         this.sugerenciaRepository.deleteAll();
@@ -52,11 +58,25 @@ class SugerenciaRepositoryTest  extends AbstractIntegrationDBTest {
     @Test
     void guardarSugerencia() {
 
-        Sugerencia sugerencia  = crearSugerenciaConUsuarioPorDefecto();
-
-        Sugerencia savedSugerencia = this.sugerenciaRepository.save( sugerencia );
+        Sugerencia savedSugerencia = this.guardarSugerenciaEnBD();
 
         assertThat( savedSugerencia.getId() ).isNotNull();
+    }
+
+    @Test
+    void buscarSugerenciaPorId() {
+        Long idGuardado = this.guardarSugerenciaEnBD().getId();
+        Optional<Sugerencia> sugerenciaBuscada  = this.sugerenciaRepository.findById( idGuardado );
+        assertThat( sugerenciaBuscada.isPresent() ).isTrue();
+    }
+
+    @Test
+    void actualizarSugerencia() {
+        Sugerencia sugerencia = this.guardarSugerenciaEnBD();
+        sugerencia.setDescripcion("esta es una nueva descripción");
+        Sugerencia sugerenciaGuardada= this.sugerenciaRepository.save(sugerencia);
+        assertThat(sugerenciaGuardada)
+                .hasFieldOrPropertyWithValue( "descripcion", "esta es una nueva descripción");
     }
 
 }
