@@ -57,9 +57,7 @@ class SugerenciaRepositoryTest  extends AbstractIntegrationDBTest {
 
     @Test
     void guardarSugerencia() {
-
         Sugerencia savedSugerencia = this.guardarSugerenciaEnBD();
-
         assertThat( savedSugerencia.getId() ).isNotNull();
     }
 
@@ -77,6 +75,15 @@ class SugerenciaRepositoryTest  extends AbstractIntegrationDBTest {
         Sugerencia sugerenciaGuardada= this.sugerenciaRepository.save(sugerencia);
         assertThat(sugerenciaGuardada)
                 .hasFieldOrPropertyWithValue( "descripcion", "esta es una nueva descripción");
+    }
+
+    @Test
+    void eliminarSugerencia() {
+        Long idSugerenciaGuardada = this.guardarSugerenciaEnBD().getId();
+        this.sugerenciaRepository.deleteById( idSugerenciaGuardada );
+        Optional<Sugerencia> sugerenciaBuscada = this.sugerenciaRepository.findById( idSugerenciaGuardada );
+        assertThat( sugerenciaBuscada.isPresent() ).isFalse();
+
     }
 
 }
