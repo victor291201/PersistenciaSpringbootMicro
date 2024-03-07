@@ -14,11 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Entity
@@ -27,6 +23,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "mensajes")
+@Builder
 public class Mensaje {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,6 +39,6 @@ public class Mensaje {
     private String contenido;
 
     @ManyToOne
-    @JoinColumn(name = "usuario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 }
