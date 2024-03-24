@@ -1,4 +1,11 @@
 package com.micro.micro.dto.sugerencia;
 
-public record SugerenciaDto() {
+import com.micro.micro.dto.usuario.UsuarioDto;
+
+import java.time.LocalDateTime;
+
+public record SugerenciaDto(Long id,
+                            String descripcion,
+                            LocalDateTime create_at,
+                            UsuarioDto usuario) {
 }
