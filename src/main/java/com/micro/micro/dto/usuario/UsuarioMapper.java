@@ -1,4 +1,4 @@
-package com.micro.micro.dto.usuario.mapper;
+package com.micro.micro.dto.usuario;
 
 import com.micro.micro.dto.usuario.UsuarioDto;
 import com.micro.micro.dto.usuario.UsuarioToSaveDto;
