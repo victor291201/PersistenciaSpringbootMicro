@@ -1,6 +1,7 @@
 package com.micro.micro.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import lombok.*;
@@ -54,13 +55,13 @@ public class Usuario {
     private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Mensaje> mensajes;
+    private List<Mensaje> mensajes;
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Sugerencia> sugerencias;
+    private List<Sugerencia> sugerencias;
 
     @ManyToMany
     @JoinTable(name = "usuario-partida", joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "idPartida", referencedColumnName = "id"))
-    private Set<Partida> partidas;
+    private List<Partida> partidas;
 
 }
