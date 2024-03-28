@@ -29,8 +29,13 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public UsuarioDto guardar(UsuarioToSaveDto usuario) {
-        return null;
+    public UsuarioDto guardar(UsuarioToSaveDto usuarioToSaveDto) {
+
+        Usuario usuario = this.usuarioMapper.usuarioToSaveDtoToUsuario( usuarioToSaveDto );
+        Usuario usuarioSaved = this.usuarioRepository.save( usuario );
+        return this.usuarioMapper.usuarioToUsuarioDto( usuarioSaved ); //aún no funciona
+
+
     }
 
     @Override
@@ -40,7 +45,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public UsuarioDto buscarPorId(Long id) throws UsuarioNotFoundException {
-        return null;
+
+        Usuario usuario = this.usuarioRepository.findById( id )
+                .orElseThrow( ()->new UsuarioNotFoundException( "El usuario no ha sido encontrado") );
+
+        return this.usuarioMapper.usuarioToUsuarioDto( usuario);
     }
 
     @Override

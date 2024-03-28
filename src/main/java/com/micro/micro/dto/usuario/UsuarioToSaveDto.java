@@ -7,7 +7,6 @@ public record UsuarioToSaveDto(String nombre,
                                String email,
                                String password,
                                String rep_password,
-                               Boolean enabled,
-                               String foto,
-                               String rol) {
+                               String foto
+                               ) {
 }
